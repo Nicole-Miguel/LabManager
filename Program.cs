@@ -2,9 +2,11 @@
 using LabManager.Database;
 using LabManager.Repositories;
 
-new DatabaseSetup();
+var databaseConfig = new DatabaseConfig();
 
-var computerRepository = new ComputerRepository();
+new DatabaseSetup(databaseConfig);
+
+var computerRepository = new ComputerRepository(databaseConfig);
 
 //Routing
 var modelName = args[0];
