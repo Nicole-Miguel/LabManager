@@ -48,6 +48,17 @@ if(modelName == "Computer")
             }
         }
     }
+
+     if(modelAction == "Update")
+    {
+        Console.WriteLine("Computer Update");
+        int id = Convert.ToInt32(args[2]);
+        var ram = args[3];
+        var processor = args[4];
+
+        var computer = new Computer(id, ram, processor);
+        computerRepository.Update(computer);
+    }
 }
 
 else if(modelName == "Lab")
