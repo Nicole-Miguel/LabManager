@@ -30,8 +30,14 @@ if(modelName == "Computer")
         var ram = args[3];
         var processor = args[4];
 
-        var computer = new Computer(id, ram, processor);
-        computerRepository.Save(computer);
+        if(computerRepository.existsById(id))
+        {
+            var computer = computerRepository.GetById(id);
+            Console.WriteLine($"O computador {id} já existe, não pode ter id duplicado.");
+        } else {
+            var computer = new Computer(id, ram, processor);
+            computerRepository.Save(computer);
+        } 
     }
 
     if(modelAction == "Show")
@@ -55,15 +61,26 @@ if(modelName == "Computer")
         var ram = args[3];
         var processor = args[4];
 
-        var computer = new Computer(id, ram, processor);
-        computerRepository.Update(computer);
+        if(computerRepository.existsById(id))
+        {
+           var computer = new Computer(id, ram, processor);
+           computerRepository.Update(computer); 
+        } else {
+            Console.WriteLine($"O computador {id} não existe.");
+        }   
     }
 
     if(modelAction == "Delete")
     {
         Console.WriteLine("Computer Delete");
         var id = Convert.ToInt32(args[2]);
-        computerRepository.Delete(id);
+
+        if(computerRepository.existsById(id))
+        {
+            computerRepository.Delete(id);
+        } else {
+             Console.WriteLine($"O computador {id} não existe.");
+        }  
     }
 }
 
