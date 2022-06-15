@@ -64,15 +64,11 @@ class ComputerRepository
 
     public bool ExistsById(int id)
     {
-        var connection = new SqliteConnection(databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(databaseConfig.ConnectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "SELECT count(id) FROM Computers WHERE id=$id;";
-        command.Parameters.AddWithValue("$id", id);
-
-        bool result = Convert.ToBoolean(command.ExecuteScalar());
-
+        bool result = Convert.ToBoolean(connection.ExecuteScalar("SELECT count(id) FROM Computers WHERE id= @Id", new {Id = id}));
+        
         return result; 
     }
 }
