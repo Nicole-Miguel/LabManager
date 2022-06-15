@@ -46,19 +46,11 @@ class ComputerRepository
 
     public Computer Update(Computer computer)
     {
-        var connection = new SqliteConnection(databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(databaseConfig.ConnectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "UPDATE Computers SET ram = $ram, processor = $processor WHERE id = $id;";
+        connection.Execute("UPDATE Computers SET ram = @Ram, processor = @Processor WHERE id = @Id", computer);
         
-        command.Parameters.AddWithValue("$id", computer.Id);
-        command.Parameters.AddWithValue("$ram", computer.Ram);
-        command.Parameters.AddWithValue("$processor", computer.Processor);
-
-        command.ExecuteNonQuery();
-        connection.Close();
-
         return computer;
     }
 
@@ -70,12 +62,6 @@ class ComputerRepository
         connection.Execute("DELETE FROM Computers WHERE id = @Id", new {Id = id});
     }
 
-    private Computer ReaderToComputer(SqliteDataReader reader)
-    {
-        var computer = new Computer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-        return computer;
-    }
-  
     public bool ExistsById(int id)
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString);
