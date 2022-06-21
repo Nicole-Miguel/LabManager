@@ -42,7 +42,7 @@ if(modelName == "Computer")
         if(computerRepository.ExistsById(id))
         {
             var computer = computerRepository.GetById(id);
-            Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
+            Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
         } else {
             Console.WriteLine($"O computador {id} não existe.");
         }  
